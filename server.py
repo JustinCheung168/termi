@@ -47,6 +47,7 @@ def run():
                 if data:
                     feedback = server_input.actuate(data)
                     if feedback == "escape":
+                        print(f'Received exit sequence')
                         connection.close()
                         connected = False
                 else:
