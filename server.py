@@ -35,21 +35,21 @@ def run():
             print(f'Connected to {address}')
 
             server_input = inputs.ServerInput(connection, x_dim, y_dim)
-            print('d')
+
             # Get introductory data packet from client
             intro_data = connection.recv(1024).decode()
-            print('c')
+
             server_input.interpret_introduction(intro_data)
 
-            print('here')
+
             connected: bool = True
             while connected:
                 # Wait for data from the client
                 data = connection.recv(1024).decode()
-                print('a')
+
                 if data:
                     feedback = server_input.actuate(data)
-                    print('b')
+
                     if feedback == "escape":
                         print(f'Received exit sequence')
                         connection.close()
