@@ -9,6 +9,11 @@ def run():
     host = '192.168.1.191'
     port = 12345
 
+    # x_dim = 2560
+    # y_dim = 1600
+    x_dim = 1440
+    y_dim = 900
+
     import pynput
     # print(dir(pynput.mouse.Button))
     # print(pynput.mouse.Button)
@@ -21,7 +26,10 @@ def run():
             print("Server refused connection; is it running?")
             return
 
-        client_input = inputs.ClientInput(client_socket)
+        client_input = inputs.ClientInput(client_socket, x_dim, y_dim)
+
+        client_input.send_introduction()
+
         print("Now accepting input. Press Ctrl+C to quit.")
 
         try:

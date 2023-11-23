@@ -6,6 +6,9 @@ def run():
     # Server socket details
     host = '192.168.1.191'
     port = 12345
+    
+    x_dim = 1920
+    y_dim = 1080
 
     # Bind the socket host and port
     server_socket = socket.socket()
@@ -23,7 +26,11 @@ def run():
             connection, address = server_socket.accept()  # accept new connection
             print(f'Connected to {address}')
 
-            server_input = inputs.ServerInput(connection)
+            server_input = inputs.ServerInput(connection, x_dim, y_dim)
+
+            # Get introductory data packet from client
+            intro_data = connection.recv(1024).decode()
+            server_input.interpret_intro_data(intro_data)
 
             connected: bool = True
             while connected:
