@@ -6,7 +6,6 @@ import os
 if 'DISPLAY' not in os.environ:
     os.environ['DISPLAY'] = ':0'
 import pyautogui
-import pynput
 
 import inputs
 
