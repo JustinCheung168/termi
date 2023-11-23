@@ -22,7 +22,9 @@ class ClientInput():
 
     def send(self):
         if not self.queue.empty():
-            packet = repr(self.queue.get()).encode() + b';'
+            event = self.queue.get()
+            print(f'Event: {event}')
+            packet = repr(event).encode() + b';'
             self.socket.send(packet)
 
 
