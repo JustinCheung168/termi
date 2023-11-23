@@ -32,7 +32,7 @@ class ClientInput():
             if self.socket is not None:
                 self.socket.send(packet)
 
-        if self.keyboard.pressed_keys == {'ctrl', 'c'}:
+        if self.keyboard.pressed_keys == {'ctrl', 'q'}:
             raise ExitException()
 
 
@@ -77,6 +77,3 @@ class ServerInput():
                 print(f"Could not evaluate instruction: {event_repr}")
             except Exception:
                 print(f"Unknown error encountered while evaluating instruction: {event_repr}")
-
-        # if self.keyboard.pressed_keys == {'cmd', 'c'}:
-        #     raise ExitException()

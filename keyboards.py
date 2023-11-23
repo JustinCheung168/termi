@@ -89,13 +89,13 @@ class ServerKeyboard(pynput.keyboard.Controller):
                 valid_special_keys[attr.name] = attr
 
         # Manually swap cmd and ctrl
-        swap = valid_special_keys['cmd']
-        valid_special_keys['cmd'] = valid_special_keys['ctrl']
-        valid_special_keys['ctrl'] = swap
+        # swap = valid_special_keys['cmd']
+        # valid_special_keys['cmd'] = valid_special_keys['ctrl']
+        # valid_special_keys['ctrl'] = swap
 
-        swap = valid_special_keys['cmd_r']
-        valid_special_keys['cmd_r'] = valid_special_keys['ctrl_r']
-        valid_special_keys['ctrl_r'] = swap
+        # swap = valid_special_keys['cmd_r']
+        # valid_special_keys['cmd_r'] = valid_special_keys['ctrl_r']
+        # valid_special_keys['ctrl_r'] = swap
 
         return valid_special_keys
 
