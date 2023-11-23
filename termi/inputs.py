@@ -1,8 +1,8 @@
 import socket
 import queue
 
-from mice import *
-from keyboards import *
+from termi.mice import *
+from termi.keyboards import *
 
 class ClientInput():
     def __init__(self, x_dim, y_dim, client_socket):
