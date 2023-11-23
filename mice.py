@@ -1,7 +1,7 @@
 import queue
 from dataclasses import dataclass
 
-import pynput
+import pynput.mouse
 
 @dataclass
 class MouseEvent:
