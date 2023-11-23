@@ -36,6 +36,7 @@ class ClientMouse(pynput.mouse.Listener):
         self.queue: queue.Queue = input_queue
 
         self.start()
+        self.wait()
 
     def on_move(self, x, y):
         # message = f'Pointer moved to ({x}, {y})'
@@ -49,7 +50,7 @@ class ClientMouse(pynput.mouse.Listener):
     def on_scroll(self, x, y, dx, dy):
         # direction_str = 'down' if dy < 0 else 'up'
         # message = f'Scrolled {direction_str} at ({x}, {y})'
-        print(dy)
+        # print(dy)
         self.queue.put(MouseScrollEvent(x, y, dx, dy))
 
 

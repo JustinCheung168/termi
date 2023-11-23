@@ -36,6 +36,7 @@ class ClientKeyboard(pynput.keyboard.Listener):
         self.queue: queue.Queue = input_queue
 
         self.start()
+        self.wait()
 
     def on_press(self, key: pynput.keyboard.Key):
         self.on_button_event(key, True)
@@ -75,14 +76,14 @@ class ServerKeyboard(pynput.keyboard.Controller):
         """"""
         super().__init__()
         self.pressed_keys = set()
-        self.valid_special_keys: dict[int, pynput.keyboard.Key] = self.get_valid_special_keys()
+        self.valid_special_keys: dict[str, pynput.keyboard.Key] = self.get_valid_special_keys()
 
     def get_valid_special_keys(self):
         valid_special_keys = {}
         for attribute in dir(pynput.keyboard.Key):
             if attribute[0] != '_':
                 attr: pynput.keyboard.Key = getattr(pynput.keyboard.Key, attribute)
-                valid_special_keys[attr.value] = attr
+                valid_special_keys[attr.name] = attr
         return valid_special_keys
 
     def actuate(self, event: KeyboardEvent):
