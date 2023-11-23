@@ -9,6 +9,10 @@ def run():
     host = '192.168.1.191'
     port = 12345
 
+    import pynput
+    # print(dir(pynput.mouse.Button))
+    # print(pynput.mouse.Button)
+
     with socket.socket() as client_socket:
         try:
             # Connect to server

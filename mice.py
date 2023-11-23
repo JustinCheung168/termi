@@ -18,7 +18,7 @@ class MouseMoveEvent(MouseEvent):
 
 @dataclass
 class MouseClickEvent(MouseEvent):
-    button: pynput.mouse.Button
+    button: str
     pressed: bool
 
 @dataclass
@@ -42,13 +42,55 @@ class ClientMouse(pynput.mouse.Listener):
         # message = f'Pointer moved to ({x}, {y})'
         self.queue.put(MouseMoveEvent(x, y))
 
-    def on_click(self, x, y, button, pressed):
+    def on_click(self, x, y, button: pynput.mouse.Button, pressed):
         # pressed_str = 'Pressed' if pressed else 'Released'
         # message = f'{pressed_str} {button} at ({x}, {y})'
-        self.queue.put(MouseClickEvent(x, y, button, pressed))
+        self.queue.put(MouseClickEvent(x, y, button.name, pressed))
 
     def on_scroll(self, x, y, dx, dy):
         # direction_str = 'down' if dy < 0 else 'up'
         # message = f'Scrolled {direction_str} at ({x}, {y})'
         self.queue.put(MouseScrollEvent(x, y, dx, dy))
 
+
+class ServerMouse(pynput.mouse.Controller):
+    def __init__(self):
+        """"""
+        super().__init__()
+
+    def actuate(self, event: MouseEvent):
+        if isinstance(event, MouseMoveEvent):
+            self.move(event.x, event.y)
+        elif isinstance(event, MouseClickEvent):
+            if event.pressed:
+                self.press(event.button)
+            else:
+                self.release(event.button)
+        elif isinstance(event, MouseScrollEvent):
+            self.scroll(event.dy)
+
+    def move(self, x: float, y: float):
+        self.position = (x, y)
+    
+    def press(self, button: str):
+        if button == "left":
+            super().press(pynput.mouse.Button.left)
+        elif button == "right":
+            super().press(pynput.mouse.Button.right)
+        elif button == "middle":
+            super().press(pynput.mouse.Button.middle)
+        else:
+            print("Unknown mouse button pressed")
+
+    def release(self, button: str):
+        if button == "left":
+            super().release(pynput.mouse.Button.left)
+        elif button == "right":
+            super().release(pynput.mouse.Button.right)
+        elif button == "middle":
+            super().release(pynput.mouse.Button.middle)
+        else:
+            print("Unknown mouse button released")
+
+    def scroll(self, dy: float):
+        super().scroll(0, dy)

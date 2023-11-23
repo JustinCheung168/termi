@@ -13,10 +13,18 @@ class ClientInput():
 
     def send(self):
         if not self.queue.empty():
+
+            # thing = self.queue.get()
+            # if type(thing) == MouseClickEvent:
+            #     print(thing)
+            #     print(thing.button)
+            #     print(thing.button.name)
+            #     print(thing.button.value)
+
             packet = repr(self.queue.get()).encode() + b';'
             self.socket.send(packet)
-            # thing = eval(packet)
-            # print(type(thing))
+
+
 
 
 class ServerInput():
@@ -30,16 +38,23 @@ class ServerInput():
         event_reprs = data.split(";")[:-1]
 
         for event_repr in event_reprs:
-            event = eval(event_repr)
+            try:
+                event = eval(event_repr)
 
-            print(event)
+                event_type = type(event)
+                if isinstance(event_type, MouseEvent):
+                    self.mouse.actuate(event)
+                # elif isinstance(event_type, KeyboardEvent):
+                #     self.keyboard.actuate(event)
+
+            except NameError:
+                print(f"Could not evaluate instruction: {event_repr}")
+            except Exception:
+                print(f"Unknown error encountered while evaluating instruction: {event_repr}")
+
+            
 
             # print(f'Received: {data}')
 
             # packet = repr(self.queue.get()).encode()
             # self.socket.send(packet)
-
-class ServerMouse():
-    def __init__(self):
-        """"""
-        # super().__init__
