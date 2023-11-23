@@ -5,7 +5,7 @@ from mice import *
 from keyboards import *
 
 class ClientInput():
-    def __init__(self, client_socket, x_dim, y_dim):
+    def __init__(self, x_dim, y_dim, client_socket):
         self.queue = queue.Queue()
 
         self.mouse = ClientMouse(self.queue)
@@ -28,7 +28,12 @@ class ClientInput():
                     print(f"Event: {event}")
 
             packet = repr(event).encode() + b';'
-            self.socket.send(packet)
+
+            if self.socket is not None:
+                self.socket.send(packet)
+
+        if self.keyboard.pressed_keys == {'ctrl', 'c'}:
+            raise ExitException()
 
 
 class ServerInput():
@@ -73,3 +78,5 @@ class ServerInput():
             except Exception:
                 print(f"Unknown error encountered while evaluating instruction: {event_repr}")
 
+        if self.keyboard.pressed_keys == {'ctrl', 'c'}:
+            raise ExitException()

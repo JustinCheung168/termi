@@ -1,8 +1,12 @@
 import queue
 from dataclasses import dataclass
 from typing import Union
+from string import ascii_lowercase
 
 import pynput.keyboard
+
+class ExitException(Exception):
+    """Raise when user inputs exit sequence"""
 
 @dataclass
 class KeyboardEvent:
@@ -32,6 +36,7 @@ class ClientKeyboard(pynput.keyboard.Listener):
             on_release=self.on_release,
             suppress=True
         )
+        self.pressed_keys = set()
 
         self.queue: queue.Queue = input_queue
 
@@ -47,8 +52,16 @@ class ClientKeyboard(pynput.keyboard.Listener):
     def on_button_event(self, key: Union[pynput.keyboard.KeyCode, pynput.keyboard.Key], pressed: bool):
         if isinstance(key, pynput.keyboard.KeyCode):
             self.queue.put(KeyPressAlphanumericEvent(pressed, key.char))
+            if pressed:
+                self.pressed_keys.add(key.char)
+            else:
+                self.pressed_keys.discard(key.char)
         elif isinstance(key, pynput.keyboard.Key):
             self.queue.put(KeyPressSpecialEvent(pressed, key.name))
+            if pressed:
+                self.pressed_keys.add(key.name)
+            else:
+                self.pressed_keys.discard(key.name)
 
 
 class ServerKeyboard(pynput.keyboard.Controller):
@@ -60,9 +73,13 @@ class ServerKeyboard(pynput.keyboard.Controller):
         self.valid_special_keys: dict[str, pynput.keyboard.Key] = self.get_valid_special_keys()
 
         # Ensure these keys start in released state if they were used to exit
-        for key in ['cmd', 'ctrl', 'cmd_r', 'ctrl_r']:
-            super().release(self.valid_special_keys[key])
-        for keychar in ['c', 'q']:
+        for key in self.valid_special_keys.keys():
+        # for key in ['cmd', 'ctrl', 'cmd_r', 'ctrl_r']:
+            try:
+                super().release(self.valid_special_keys[key])
+            except:
+                print(f'Skipping {key} release')
+        for keychar in ascii_lowercase:
             super().release(keychar)
 
     def get_valid_special_keys(self):
@@ -106,9 +123,6 @@ class ServerKeyboard(pynput.keyboard.Controller):
         except Exception as e:
             print(f"Unknown pressed key: {key} with exception {e}")
         self.pressed_keys.add(key)
-
-        if 'ctrl' in self.pressed_keys and 'q' in self.pressed_keys:
-            return "escape"
 
     def release(self, key: str):
         try:

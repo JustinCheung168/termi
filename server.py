@@ -10,10 +10,7 @@ import yaml
 import inputs
 
 def run():
-    # Server socket details
-    # host = '192.168.1.191'
-    # port = 12345
-
+    # Read server socket details
     with open("config.yaml", "r") as yamlfile:
         data = yaml.load(yamlfile, Loader=yaml.FullLoader)
     host = data['host']
@@ -58,7 +55,7 @@ def run():
                         print(f'Lost contact with {address}; closing connection...')
                         connection.close()
                         connected = False
-            except KeyboardInterrupt:
+            except inputs.ExitException:
                 print(f'Closing connection to {address}...')
                 connection.close()
             
