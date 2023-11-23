@@ -1,38 +1,16 @@
 #!/usr/bin/env python3
 import socket
 
-# s = socket.socket()
-# host = '192.168.1.191' #ip of raspberry pi
-# port = 12345
-# s.bind((host, port))
-
-# # Allow 1 client
-# s.listen(1)
-# c, addr = s.accept()
-# print(f'Got connection from: {addr}')
-# c.send(b'Connected to host')
-
-# while True:
-#     data = c.recv(1024).decode()
-#     if not data:
-#         break
-#     print(f'Received: {data}')
-
-# c.close()
-
-
-
-
 def server_program():
     # get the hostname
-    host = "192.168.1.191"
+    host = '192.168.1.191'
     port = 12345  # initiate port no above 1024
 
     server_socket = socket.socket()  # get instance
     server_socket.bind((host, port))  # bind host address and port together
 
     # configure how many client the server can listen simultaneously
-    server_socket.listen(2)
+    server_socket.listen(1)
     conn, address = server_socket.accept()  # accept new connection
     print("Connection from: " + str(address))
     while True:
@@ -42,8 +20,8 @@ def server_program():
             # if data is not received break
             break
         print("from connected user: " + str(data))
-        data = input(' -> ')
-        conn.send(data.encode())  # send data to the client
+        # data = input(' -> ')
+        # conn.send(data.encode())  # send data to the client
 
     conn.close()  # close the connection
 
