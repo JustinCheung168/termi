@@ -51,6 +51,8 @@ def run():
             
     except KeyboardInterrupt:
         print("\nQuitting...")
+
+    finally:
         if connection is not None:
             connection.close()
         return
