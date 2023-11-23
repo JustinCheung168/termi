@@ -30,7 +30,7 @@ class ClientKeyboard(pynput.keyboard.Listener):
         super().__init__(
             on_press=self.on_press,
             on_release=self.on_release,
-            # suppress=True
+            suppress=True
         )
 
         self.queue: queue.Queue = input_queue
