@@ -1,34 +1,28 @@
 #!/usr/bin/env python3
 import socket
 
-def client_program():
+def run():
     # Server socket details
     host = '192.168.1.191'
     port = 12345
 
+    with socket.socket() as client_socket:
+        try:
+            # Connect to server
+            client_socket.connect((host, port))
+        except ConnectionRefusedError:
+            print("Server refused connection; is it running?")
+            return
 
-    client_socket = socket.socket()
-    try:
-        # Connect to server
-        client_socket.connect((host, port))
-    except ConnectionRefusedError:
-        print("Server refused connection; is it running?")
-        client_socket.close()
-        return
-
-    try:
-        while True:
-            message = input("Enter something: ")
-            client_socket.send(message.encode())
-    except KeyboardInterrupt:
-        print("Quitting...")
-    except BrokenPipeError:
-        print("Lost connection to server; quitting...")
-    
-    # Cleanup
-    client_socket.close()
-    return
+        try:
+            while True:
+                message = input("Enter something: ")
+                client_socket.send(message.encode())
+        except KeyboardInterrupt:
+            print("\nQuitting...")
+        except BrokenPipeError:
+            print("Lost connection to server; quitting...")
 
 
 if __name__ == '__main__':
-    client_program()
+    run()

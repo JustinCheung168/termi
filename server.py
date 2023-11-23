@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import socket
 
-def server_program():
+def run():
     # Server socket details
     host = '192.168.1.191'
     port = 12345
@@ -41,4 +41,4 @@ def server_program():
 
 
 if __name__ == '__main__':
-    server_program()
+    run()
