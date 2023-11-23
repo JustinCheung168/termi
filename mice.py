@@ -50,6 +50,7 @@ class ClientMouse(pynput.mouse.Listener):
     def on_scroll(self, x, y, dx, dy):
         # direction_str = 'down' if dy < 0 else 'up'
         # message = f'Scrolled {direction_str} at ({x}, {y})'
+        print(dy)
         self.queue.put(MouseScrollEvent(x, y, dx, dy))
 
 
@@ -60,10 +61,10 @@ class ServerMouse(pynput.mouse.Controller):
 
     def actuate(self, event: MouseEvent):
         if isinstance(event, MouseMoveEvent):
-            print('move')
+            # print('move')
             self.move(event.x, event.y)
         elif isinstance(event, MouseClickEvent):
-            print('click')
+            # print('click')
             if event.pressed:
                 self.press(event.button)
             else:

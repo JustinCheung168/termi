@@ -42,7 +42,7 @@ class ServerInput():
                 event = eval(event_repr)
 
                 if isinstance(event, MouseEvent):
-                    print('mouse event')
+                    # print('mouse event')
                     self.mouse.actuate(event)
                 # elif isinstance(event_type, KeyboardEvent):
                 #     self.keyboard.actuate(event)
