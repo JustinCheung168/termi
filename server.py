@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 import socket
+
+import os
+
+if 'DISPLAY' not in os.environ:
+    os.environ['DISPLAY'] = ':0'
+import pyautogui
+
 import inputs
 
 def run():
     # Server socket details
     host = '192.168.1.191'
     port = 12345
-    
-    x_dim = 1920
-    y_dim = 1080
+
+    x_dim, y_dim = pyautogui.size()
 
     # Bind the socket host and port
     server_socket = socket.socket()

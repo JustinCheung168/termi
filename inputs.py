@@ -2,17 +2,19 @@ import socket
 import queue
 
 from mice import *
+from keyboards import *
 
 class ClientInput():
     def __init__(self, client_socket, x_dim, y_dim):
         self.queue = queue.Queue()
 
         self.mouse = ClientMouse(self.queue)
+        self.keyboard = ClientKeyboard(self.queue)
 
         self.socket: socket.socket = client_socket
 
-        self.x_dim: x_dim
-        self.y_dim: y_dim
+        self.x_dim = x_dim
+        self.y_dim = y_dim
 
     def send_introduction(self):
         intro_data = {"x_dim": self.x_dim, "y_dim": self.y_dim}
@@ -20,24 +22,14 @@ class ClientInput():
 
     def send(self):
         if not self.queue.empty():
-
-            # thing = self.queue.get()
-            # if type(thing) == MouseClickEvent:
-            #     print(thing)
-            #     print(thing.button)
-            #     print(thing.button.name)
-            #     print(thing.button.value)
-
             packet = repr(self.queue.get()).encode() + b';'
             self.socket.send(packet)
-
-
-
 
 
 class ServerInput():
     def __init__(self, connection, x_dim: int, y_dim: int):
         self.mouse = ServerMouse()
+        self.keyboard = ServerKeyboard()
 
         self.connection = connection
 
@@ -62,10 +54,9 @@ class ServerInput():
                 event = eval(event_repr)
 
                 if isinstance(event, MouseEvent):
-                    # print('mouse event')
                     self.mouse.actuate(event, self.x_scale, self.y_scale)
-                # elif isinstance(event_type, KeyboardEvent):
-                #     self.keyboard.actuate(event)
+                elif isinstance(event, KeyboardEvent):
+                    self.keyboard.actuate(event)
                 else:
                     print(f"Unknown event type {type(event)}")
 
@@ -74,9 +65,3 @@ class ServerInput():
             except Exception:
                 print(f"Unknown error encountered while evaluating instruction: {event_repr}")
 
-            
-
-            # print(f'Received: {data}')
-
-            # packet = repr(self.queue.get()).encode()
-            # self.socket.send(packet)

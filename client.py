@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 import socket
-import mice
 import time
+import os
+
+if 'DISPLAY' not in os.environ:
+    os.environ['DISPLAY'] = ':0'
+import pyautogui
+
 import inputs
 
 def run():
@@ -9,14 +14,7 @@ def run():
     host = '192.168.1.191'
     port = 12345
 
-    # x_dim = 2560
-    # y_dim = 1600
-    x_dim = 1440
-    y_dim = 900
-
-    import pynput
-    # print(dir(pynput.mouse.Button))
-    # print(pynput.mouse.Button)
+    x_dim, y_dim = pyautogui.size()
 
     with socket.socket() as client_socket:
         try:

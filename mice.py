@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-import pyautogui
-# import mouse
-import pynput
 import queue
 from dataclasses import dataclass
+
+import pynput
 
 @dataclass
 class MouseEvent:
@@ -31,7 +29,8 @@ class ClientMouse(pynput.mouse.Listener):
         super().__init__(
             on_move=self.on_move,
             on_click=self.on_click,
-            on_scroll=self.on_scroll
+            on_scroll=self.on_scroll, 
+            suppress=True
         )
 
         self.queue: queue.Queue = input_queue
@@ -61,10 +60,8 @@ class ServerMouse(pynput.mouse.Controller):
 
     def actuate(self, event: MouseEvent, x_scale: float, y_scale: float):
         if isinstance(event, MouseMoveEvent):
-            # print('move')
             self.move(event.x * x_scale, event.y * y_scale)
         elif isinstance(event, MouseClickEvent):
-            # print('click')
             if event.pressed:
                 self.press(event.button)
             else:
@@ -72,6 +69,8 @@ class ServerMouse(pynput.mouse.Controller):
         elif isinstance(event, MouseScrollEvent):
             print('scroll')
             self.scroll(int(event.dy * y_scale)+1)
+        else:
+            print('Unknown mouse event')
 
     def move(self, x: float, y: float):
         self.position = (x, y)
@@ -84,7 +83,7 @@ class ServerMouse(pynput.mouse.Controller):
         elif button == "middle":
             super().press(pynput.mouse.Button.middle)
         else:
-            print("Unknown mouse button pressed")
+            print('Unknown mouse button pressed')
 
     def release(self, button: str):
         if button == "left":
@@ -94,8 +93,9 @@ class ServerMouse(pynput.mouse.Controller):
         elif button == "middle":
             super().release(pynput.mouse.Button.middle)
         else:
-            print("Unknown mouse button released")
+            print('Unknown mouse button released')
 
     def scroll(self, dy: float):
+        # TODO fix scrolling, it's broken rn
         print(dy)
         super().scroll(0, 100)
