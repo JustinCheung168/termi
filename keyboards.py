@@ -48,7 +48,7 @@ class ClientKeyboard(pynput.keyboard.Listener):
         if isinstance(key, pynput.keyboard.KeyCode):
             self.queue.put(KeyPressAlphanumericEvent(pressed, key.char))
         elif isinstance(key, pynput.keyboard.Key):
-            self.queue.put(KeyPressSpecialEvent(pressed, key.value))
+            self.queue.put(KeyPressSpecialEvent(pressed, key.name))
 
 
 class ServerKeyboard(pynput.keyboard.Controller):
@@ -100,7 +100,7 @@ class ServerKeyboard(pynput.keyboard.Controller):
         else:
             print('Unknown keyboard event')
     
-    def press(self, key: Union[str, int]):
+    def press(self, key: str):
         try:
             if key in self.valid_special_keys.keys():
                 super().press(self.valid_special_keys[key])
@@ -110,7 +110,7 @@ class ServerKeyboard(pynput.keyboard.Controller):
             print(f"Unknown key: {key} with exception {e}")
         self.pressed_keys.add(key)
 
-    def release(self, key: Union[str, int]):
+    def release(self, key: str):
         try:
             super().release(key)
         except Exception as e:
