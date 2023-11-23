@@ -51,8 +51,7 @@ class ClientMouse(pynput.mouse.Listener):
         # direction_str = 'down' if dy < 0 else 'up'
         # message = f'Scrolled {direction_str} at ({x}, {y})'
         # print(dy)
-        # self.queue.put(MouseScrollEvent(x, y, dx, dy))
-        pass
+        self.queue.put(MouseScrollEvent(x, y, dx, dy))
 
 
 class ServerMouse(pynput.mouse.Controller):
@@ -72,7 +71,8 @@ class ServerMouse(pynput.mouse.Controller):
             print('scroll')
             self.scroll(int(event.dy * y_scale)+1)
         else:
-            print(f'Unknown mouse event {type(event)}, {event}')
+            pass
+            # print(f'Unknown mouse event {type(event)}, {event}')
 
     def move(self, x: float, y: float):
         self.position = (x, y)
