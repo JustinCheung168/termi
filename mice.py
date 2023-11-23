@@ -68,7 +68,7 @@ class ServerMouse(pynput.mouse.Controller):
             else:
                 self.release(event.button)
         elif isinstance(event, MouseScrollEvent):
-            self.scroll(int(event.dx * x_scale)+1, int(event.dy * y_scale)+1)
+            self.scroll(int(event.dx * x_scale), int(event.dy * y_scale))
         else:
             pass
             # print(f'Unknown mouse event {type(event)}, {event}')
@@ -101,5 +101,5 @@ class ServerMouse(pynput.mouse.Controller):
     def scroll(self, dx: float, dy: float):
         """"""
         # TODO fix scrolling, it's broken rn
-        print("scroll", dx, dy)
+        # print("scroll", dx, dy)
         super().scroll(dx, dy)
