@@ -28,10 +28,17 @@ class ClientInput():
 
 
 class ServerInput():
-    def __init__(self, connection):
+    def __init__(self, connection, x_dim: int, y_dim: int):
         self.mouse = ServerMouse()
 
         self.connection = connection
+
+        self.x_dim = x_dim
+        self.y_dim = y_dim
+
+    def set_client_scaling(self, x_dim: int, y_dim: int):
+        self.x_scale = self.x_dim / float(x_dim)
+        self.y_scale = self.y_dim / float(y_dim)
 
     def actuate(self, data: str):
 
@@ -43,7 +50,7 @@ class ServerInput():
 
                 if isinstance(event, MouseEvent):
                     # print('mouse event')
-                    self.mouse.actuate(event)
+                    self.mouse.actuate(event, self.x_scale, self.y_scale)
                 # elif isinstance(event_type, KeyboardEvent):
                 #     self.keyboard.actuate(event)
                 else:
