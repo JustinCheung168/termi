@@ -41,13 +41,13 @@ class ServerInput():
             try:
                 event = eval(event_repr)
 
-                event_type = type(event)
-                print(event_type)
-                if isinstance(event_type, MouseEvent):
+                if isinstance(event, MouseEvent):
                     print('mouse event')
                     self.mouse.actuate(event)
                 # elif isinstance(event_type, KeyboardEvent):
                 #     self.keyboard.actuate(event)
+                else:
+                    print(f"Unknown event type {type(event)}")
 
             except NameError:
                 print(f"Could not evaluate instruction: {event_repr}")
