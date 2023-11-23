@@ -37,7 +37,7 @@ def run():
 
             client_input.send_introduction()
 
-        print("Now accepting input. Press Ctrl+Q to quit.")
+        print("Now accepting input. Press Cmd+Q to quit.")
 
         try:
             while True:

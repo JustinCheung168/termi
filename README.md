@@ -12,6 +12,6 @@ Launch `/.server.py` on the computer to control.
 
 Then run `./client.py` on the computer whose keyboard and mouse you are using.
 
-You can exit the session using Ctrl+Q. The server will continue to run and will be prepared to accept another client connection.
+You can exit the session using Cmd+Q. The server will continue to run and will be prepared to accept another client connection.
 
-Only tested using Mac personal computer + Linux remote computer. Not designed for another setup yet.
+Only tested using Mac personal computer + Linux remote computer. Not designed or tested for another setup yet.
