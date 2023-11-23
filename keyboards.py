@@ -79,6 +79,7 @@ class ServerKeyboard(pynput.keyboard.Controller):
 
         # Ensure each key starts in released state
         for key in self.valid_special_keys.keys():
+            print(key)
             super().release(self.valid_special_keys[key])
 
         print('b')
