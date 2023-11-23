@@ -85,7 +85,8 @@ class ServerMouse(pynput.mouse.Controller):
         elif button == "middle":
             super().press(pynput.mouse.Button.middle)
         else:
-            print(f'Unknown mouse button pressed {button}')
+            pass
+            # print(f'Unknown mouse button pressed {button}')
 
     def release(self, button: str):
         if button == "left":
@@ -95,7 +96,8 @@ class ServerMouse(pynput.mouse.Controller):
         elif button == "middle":
             super().release(pynput.mouse.Button.middle)
         else:
-            print(f'Unknown mouse button released {button}')
+            pass
+            # print(f'Unknown mouse button released {button}')
 
     def scroll(self, dy: float):
         # TODO fix scrolling, it's broken rn
