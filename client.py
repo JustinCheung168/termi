@@ -7,7 +7,13 @@ def client_program():
     port = 12345  # socket server port number
 
     client_socket = socket.socket()  # instantiate
-    client_socket.connect((host, port))  # connect to the server
+
+    try:
+        client_socket.connect((host, port))  # connect to the server
+    except ConnectionRefusedError:
+        print("Server refused connection; is it running?")
+        client_socket.close()
+        return
 
     try:
         while True:
@@ -16,9 +22,11 @@ def client_program():
     except KeyboardInterrupt:
         print("Quitting")
         client_socket.close()  # close the connection
+        return
     except BrokenPipeError:
         print("Lost connection to server")
         client_socket.close()
+        return
 
 
 if __name__ == '__main__':
