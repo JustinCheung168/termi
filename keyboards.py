@@ -75,14 +75,12 @@ class ServerKeyboard(pynput.keyboard.Controller):
         valid_special_keys['cmd_r'] = valid_special_keys['ctrl_r']
         valid_special_keys['ctrl_r'] = swap
 
-        print('a')
-
         # Ensure each key starts in released state
         for key in valid_special_keys.keys():
-            print(key)
-            super().release(valid_special_keys[key])
-
-        print('b')
+            try:
+                super().release(valid_special_keys[key])
+            except Exception as e:
+                print(f'Could not release {key} ({e}); skipping it')
 
         return valid_special_keys
 
