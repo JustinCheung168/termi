@@ -2,39 +2,41 @@
 import socket
 
 def server_program():
-    # get the hostname
+    # Server socket details
     host = '192.168.1.191'
-    port = 12345  # initiate port no above 1024
+    port = 12345
 
-    server_socket = socket.socket()  # get instance
-    server_socket.bind((host, port))  # bind host address and port together
-    server_socket.settimeout(None) # socket can wait indefinitely
+    # Bind the socket host and port
+    server_socket = socket.socket()
+    server_socket.bind((host, port))
 
-    # configure how many client the server can listen simultaneously
+    # Server can wait indefinitely
+    server_socket.settimeout(None) 
+    # Server can accept this many clients
     server_socket.listen(1)
 
-    # Wait for client to connect
-    try:
-        conn, address = server_socket.accept()  # accept new connection
-        print("Connection from: " + str(address))
-    except KeyboardInterrupt:
-        print("Didn't receive a connection")
-        return
-
-    try:
+    connection: socket.socket = None
+    try: 
         while True:
-            # receive data stream. it won't accept data packet greater than 1024 bytes
-            data = conn.recv(1024).decode()
-            if not data:
-                # if data is not received break
-                break
-            print("from connected user: " + str(data))
-        print("Lost connection")
-        conn.close()  # close the connection
-        return
+            # Wait for client to connect
+            connection, address = server_socket.accept()  # accept new connection
+            print(f'Connected to {address}')
+
+            connected: bool = True
+            while connected:
+                # Wait for data from the client
+                data = connection.recv(1024).decode()
+                if data:
+                    print(f'Received: {data}')
+                else:
+                    print(f'Lost connection to {address}')
+                    connection.close()
+                    connected = False
+            
     except KeyboardInterrupt:
-        print("Quitting")
-        conn.close()  # close the connection
+        print("\nQuitting...")
+        if connection is not None:
+            connection.close()
         return
 
 

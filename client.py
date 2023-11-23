@@ -2,14 +2,15 @@
 import socket
 
 def client_program():
-    # host = socket.gethostname()  # as both code is running on same pc
+    # Server socket details
     host = '192.168.1.191'
-    port = 12345  # socket server port number
+    port = 12345
 
-    client_socket = socket.socket()  # instantiate
 
+    client_socket = socket.socket()
     try:
-        client_socket.connect((host, port))  # connect to the server
+        # Connect to server
+        client_socket.connect((host, port))
     except ConnectionRefusedError:
         print("Server refused connection; is it running?")
         client_socket.close()
@@ -17,16 +18,16 @@ def client_program():
 
     try:
         while True:
-            message = input(" -> ")  # again take input
-            client_socket.send(message.encode())  # send message
+            message = input("Enter something: ")
+            client_socket.send(message.encode())
     except KeyboardInterrupt:
-        print("Quitting")
-        client_socket.close()  # close the connection
-        return
+        print("Quitting...")
     except BrokenPipeError:
-        print("Lost connection to server")
-        client_socket.close()
-        return
+        print("Lost connection to server; quitting...")
+    
+    # Cleanup
+    client_socket.close()
+    return
 
 
 if __name__ == '__main__':
