@@ -6,6 +6,7 @@ import os
 if 'DISPLAY' not in os.environ:
     os.environ['DISPLAY'] = ':0'
 import pyautogui
+import pynput
 
 import inputs
 
@@ -28,6 +29,7 @@ def run():
     connection: socket.socket = None
     try: 
         while True:
+            print(f'Server launched; awaiting client connection.')
             # Wait for client to connect
             connection, address = server_socket.accept()  # accept new connection
             print(f'Connected to {address}')
@@ -43,7 +45,9 @@ def run():
                 # Wait for data from the client
                 data = connection.recv(1024).decode()
                 if data:
-                    server_input.actuate(data)
+                    disconnect = server_input.actuate(data)
+                    if disconnect:
+                        connected = False
                 else:
                     print(f'Lost connection to {address}')
                     connection.close()

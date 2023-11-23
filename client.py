@@ -32,7 +32,7 @@ def run():
 
         try:
             while True:
-                time.sleep(1/1000)
+                time.sleep(1/10000)
                 client_input.send()
         except KeyboardInterrupt:
             print("\nQuitting...")

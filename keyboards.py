@@ -75,23 +75,27 @@ class ServerKeyboard(pynput.keyboard.Controller):
         valid_special_keys['cmd_r'] = valid_special_keys['ctrl_r']
         valid_special_keys['ctrl_r'] = swap
 
+        # Ensure each key starts in released state
+        for key in self.valid_special_keys.keys():
+            super().release(self.valid_special_keys[key])
+
         return valid_special_keys
 
-    def actuate(self, event: KeyboardEvent):
+    def actuate(self, event: KeyboardEvent) -> bool:
         if isinstance(event, KeyPressAlphanumericEvent):
             if event.pressed:
-                self.press(event.key)
+                return self.press(event.key)
             else:
                 self.release(event.key)
         elif isinstance(event, KeyPressSpecialEvent):
             if event.pressed:
-                self.press(event.key)
+                return self.press(event.key)
             else:
                 self.release(event.key)
         else:
             print('Unknown keyboard event')
     
-    def press(self, key: str):
+    def press(self, key: str) -> bool:
         try:
             if key in self.valid_special_keys.keys():
                 super().press(self.valid_special_keys[key])
@@ -100,6 +104,9 @@ class ServerKeyboard(pynput.keyboard.Controller):
         except Exception as e:
             print(f"Unknown pressed key: {key} with exception {e}")
         self.pressed_keys.add(key)
+
+        if 'ctrl' in self.pressed_keys and 'q' in self.pressed_keys:
+            return True
 
     def release(self, key: str):
         try:
