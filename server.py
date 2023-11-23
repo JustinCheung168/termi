@@ -55,7 +55,7 @@ def run():
                         print(f'Lost contact with {address}; closing connection...')
                         connection.close()
                         connected = False
-            except inputs.ExitException:
+            except KeyboardInterrupt:
                 print(f'Closing connection to {address}...')
                 connection.close()
             

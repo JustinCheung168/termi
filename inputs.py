@@ -78,5 +78,5 @@ class ServerInput():
             except Exception:
                 print(f"Unknown error encountered while evaluating instruction: {event_repr}")
 
-        if self.keyboard.pressed_keys == {'cmd', 'c'}:
-            raise ExitException()
+        # if self.keyboard.pressed_keys == {'cmd', 'c'}:
+        #     raise ExitException()
