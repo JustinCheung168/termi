@@ -24,15 +24,15 @@ class ClientInput():
         if not self.queue.empty():
             event = self.queue.get()
 
-            if not isinstance(event, MouseMoveEvent):
-                    print(f"Event: {event}")
+            # if not isinstance(event, MouseMoveEvent):
+            #     print(f"Event: {event}")
 
             packet = repr(event).encode() + b';'
 
             if self.socket is not None:
                 self.socket.send(packet)
 
-        if self.keyboard.pressed_keys == {'ctrl', 'q'}:
+        if {'ctrl', 'q'}.issubset(self.keyboard.pressed_keys):
             raise ExitException()
 
 
@@ -63,8 +63,8 @@ class ServerInput():
             try:
                 event = eval(event_repr)
 
-                if not isinstance(event, MouseMoveEvent):
-                    print(f"Event: {event}")
+                # if not isinstance(event, MouseMoveEvent):
+                #     print(f"Event: {event}")
 
                 if isinstance(event, MouseEvent):
                     self.mouse.actuate(event, self.x_scale, self.y_scale)
