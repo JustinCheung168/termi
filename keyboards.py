@@ -1,5 +1,6 @@
 import queue
 from dataclasses import dataclass
+from typing import Union
 
 import pynput
 
@@ -33,7 +34,7 @@ class ClientKeyboard(pynput.keyboard.Listener):
     def on_release(self, key: pynput.keyboard.Key):
         self.on_button_event(key, False)
 
-    def on_button_event(self, key: pynput.keyboard.KeyCode | pynput.keyboard.Key, pressed: bool):
+    def on_button_event(self, key: Union[pynput.keyboard.KeyCode, pynput.keyboard.Key], pressed: bool):
         if isinstance(key, pynput.keyboard.KeyCode):
             self.queue.put(KeyPressEvent(key.char, False, pressed))
         elif isinstance(key, pynput.keyboard.Key):
