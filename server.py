@@ -7,7 +7,7 @@ if 'DISPLAY' not in os.environ:
 import pyautogui
 import yaml
 
-import inputs
+import termi.inputs
 
 def run():
     # Read server socket details
