@@ -12,8 +12,16 @@ def server_program():
 
     # configure how many client the server can listen simultaneously
     server_socket.listen(1)
-    conn, address = server_socket.accept()  # accept new connection
-    print("Connection from: " + str(address))
+
+    # Wait for client to connect
+    try:
+        conn, address = server_socket.accept()  # accept new connection
+        print("Connection from: " + str(address))
+    except KeyboardInterrupt:
+        print("Didn't receive a connection")
+        server_socket.close()
+        
+
     try:
         while True:
             # receive data stream. it won't accept data packet greater than 1024 bytes
@@ -27,6 +35,7 @@ def server_program():
     except KeyboardInterrupt:
         print("Quitting")
         conn.close()  # close the connection
+        server_socket.close()
 
 
 if __name__ == '__main__':

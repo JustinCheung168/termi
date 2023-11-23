@@ -16,6 +16,9 @@ def client_program():
     except KeyboardInterrupt:
         print("Quitting")
         client_socket.close()  # close the connection
+    except BrokenPipeError:
+        print("Lost connection to server")
+        client_socket.close()
 
 
 if __name__ == '__main__':
