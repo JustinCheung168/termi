@@ -73,8 +73,7 @@ class ServerKeyboard(pynput.keyboard.Controller):
         self.valid_special_keys: dict[str, pynput.keyboard.Key] = self.get_valid_special_keys()
 
         # Ensure these keys start in released state if they were used to exit
-        for key in self.valid_special_keys.keys():
-        # for key in ['cmd', 'ctrl', 'cmd_r', 'ctrl_r']:
+        for key in ['cmd', 'ctrl', 'cmd_r', 'ctrl_r']:
             try:
                 super().release(self.valid_special_keys[key])
             except:
