@@ -36,7 +36,7 @@ def run():
             connection, address = server_socket.accept()  # accept new connection
             print(f'Connected to {address}.')
 
-            server_input = inputs.ServerInput(connection, x_dim, y_dim)
+            server_input = termi.inputs.ServerInput(connection, x_dim, y_dim)
 
             # Get introductory data packet from client
             intro_data = connection.recv(1024).decode()

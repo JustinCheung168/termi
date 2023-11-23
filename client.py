@@ -24,7 +24,7 @@ def run():
 
         print(sys.argv)
         if len(sys.argv) > 1 and sys.argv[1] == "--no-server":
-            client_input = inputs.ClientInput(x_dim, y_dim, None)
+            client_input = termi.inputs.ClientInput(x_dim, y_dim, None)
         else:
             try:
                 # Connect to server
@@ -33,7 +33,7 @@ def run():
                 print("Server refused connection; is it running?")
                 return
 
-            client_input = inputs.ClientInput(x_dim, y_dim, client_socket)
+            client_input = termi.inputs.ClientInput(x_dim, y_dim, client_socket)
 
             client_input.send_introduction()
 
@@ -43,7 +43,7 @@ def run():
             while True:
                 time.sleep(1/10000)
                 client_input.send()
-        except inputs.ExitException:
+        except termi.inputs.ExitException:
             print("\nQuitting...")
         except BrokenPipeError:
             print("Lost connection to server; quitting...")
