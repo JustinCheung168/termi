@@ -30,7 +30,7 @@ def run():
 
             # Get introductory data packet from client
             intro_data = connection.recv(1024).decode()
-            server_input.interpret_intro_data(intro_data)
+            server_input.interpret_introduction(intro_data)
 
             connected: bool = True
             while connected:
