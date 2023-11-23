@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import socket
 
-
 s = socket.socket()        
 host = '192.168.1.191'# ip of raspberry pi 
 port = 12345               
@@ -13,7 +12,7 @@ s.close()
 # def client_program():
 #     # host = socket.gethostname()  # as both code is running on same pc
 #     host = '192.168.1.191'
-#     port = 5000  # socket server port number
+#     port = 12345  # socket server port number
 
 #     client_socket = socket.socket()  # instantiate
 #     client_socket.connect((host, port))  # connect to the server

@@ -10,14 +10,14 @@ s.listen(5)
 while True:
   c, addr = s.accept()
   print ('Got connection from',addr)
-  c.send('Thank you for connecting')
+  c.send(b'Thank you for connecting')
   c.close()
 
 
 # def server_program():
 #     # get the hostname
 #     host = "192.168.1.191"
-#     port = 5000  # initiate port no above 1024
+#     port = 12345  # initiate port no above 1024
 
 #     server_socket = socket.socket()  # get instance
 #     # look closely. The bind() function takes tuple as argument
