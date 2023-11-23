@@ -7,13 +7,22 @@ import pynput
 @dataclass
 class KeyboardEvent:
     """Common struct format for keyboard input events"""
-    key: str
-    special: bool
 
 @dataclass
 class KeyPressEvent(KeyboardEvent):
     """"""
     pressed: bool
+
+@dataclass
+class KeyPressAlphanumericEvent(KeyPressEvent):
+    """"""
+    key: str
+    
+
+@dataclass
+class KeyPressSpecialEvent(KeyPressEvent):
+    """"""
+    key: int
 
 
 class ClientKeyboard(pynput.keyboard.Listener):
@@ -36,9 +45,9 @@ class ClientKeyboard(pynput.keyboard.Listener):
 
     def on_button_event(self, key: Union[pynput.keyboard.KeyCode, pynput.keyboard.Key], pressed: bool):
         if isinstance(key, pynput.keyboard.KeyCode):
-            self.queue.put(KeyPressEvent(key.char, False, pressed))
+            self.queue.put(KeyPressAlphanumericEvent(key.char, False, pressed))
         elif isinstance(key, pynput.keyboard.Key):
-            self.queue.put(KeyPressEvent(key.name, True, pressed))
+            self.queue.put(KeyPressSpecialEvent(key.value, True, pressed))
 
 
 class ServerKeyboard(pynput.keyboard.Controller):
@@ -50,20 +59,20 @@ class ServerKeyboard(pynput.keyboard.Controller):
     def actuate(self, event: KeyboardEvent):
         if isinstance(event, KeyPressEvent):
             if event.pressed:
-                self.press(event.key, event.special)
+                self.press(event.key)
             else:
-                self.release(event.key, event.special)
+                self.release(event.key)
         else:
             print('Unknown keyboard event')
     
-    def press(self, key: str, _):
+    def press(self, key: Union[str, int]):
         try:
             super().press(key)
         except:
             print(f"Unknown key: {key}")
         self.pressed_keys.add(key)
 
-    def release(self, key: str, _):
+    def release(self, key: str):
         try:
             super().release(key)
         except:
