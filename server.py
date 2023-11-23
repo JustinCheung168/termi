@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 import socket
-
 import os
 
 if 'DISPLAY' not in os.environ:
     os.environ['DISPLAY'] = ':0'
 import pyautogui
+import yaml
 
 import inputs
 
 def run():
     # Server socket details
-    host = '192.168.1.191'
-    port = 12345
+    # host = '192.168.1.191'
+    # port = 12345
+
+    with open("config.yaml", "r") as yamlfile:
+        data = yaml.load(yamlfile, Loader=yaml.FullLoader)
+    host = data['host']
+    port = data['port']
 
     x_dim, y_dim = pyautogui.size()
 

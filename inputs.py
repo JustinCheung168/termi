@@ -23,7 +23,10 @@ class ClientInput():
     def send(self):
         if not self.queue.empty():
             event = self.queue.get()
-            print(f'Event: {event}')
+
+            if not isinstance(event, MouseMoveEvent):
+                    print(f"Event: {event}")
+
             packet = repr(event).encode() + b';'
             self.socket.send(packet)
 

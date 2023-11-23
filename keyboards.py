@@ -59,6 +59,12 @@ class ServerKeyboard(pynput.keyboard.Controller):
         self.pressed_keys = set()
         self.valid_special_keys: dict[str, pynput.keyboard.Key] = self.get_valid_special_keys()
 
+        # Ensure these keys start in released state if they were used to exit
+        for key in ['cmd', 'ctrl', 'cmd_r', 'ctrl_r']:
+            super().release(self.valid_special_keys[key])
+        for keychar in ['c', 'q']:
+            super().release(keychar)
+
     def get_valid_special_keys(self):
         valid_special_keys = {}
         for attribute in dir(pynput.keyboard.Key):
@@ -74,15 +80,6 @@ class ServerKeyboard(pynput.keyboard.Controller):
         swap = valid_special_keys['cmd_r']
         valid_special_keys['cmd_r'] = valid_special_keys['ctrl_r']
         valid_special_keys['ctrl_r'] = swap
-
-        # Ensure each key starts in released state
-        for key in ['cmd', 'ctrl', 'cmd_r', 'ctrl_r']:
-            super().release(valid_special_keys[key])
-        # for key in valid_special_keys.keys():
-        #     try:
-        #         super().release(valid_special_keys[key])
-        #     except Exception as e:
-        #         print(f'Could not release {key} ({e}); skipping it')
 
         return valid_special_keys
 
