@@ -53,6 +53,8 @@ class ServerInput():
             try:
                 event = eval(event_repr)
 
+                print(f"Event: {event}")
+
                 if isinstance(event, MouseEvent):
                     self.mouse.actuate(event, self.x_scale, self.y_scale)
                 elif isinstance(event, KeyboardEvent):

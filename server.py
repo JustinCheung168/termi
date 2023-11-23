@@ -28,11 +28,12 @@ def run():
 
     connection: socket.socket = None
     try: 
+        print(f'Server launched.')
         while True:
-            print(f'Server launched; awaiting client connection.')
+            print(f'Awaiting client connection...')
             # Wait for client to connect
             connection, address = server_socket.accept()  # accept new connection
-            print(f'Connected to {address}')
+            print(f'Connected to {address}.')
 
             server_input = inputs.ServerInput(connection, x_dim, y_dim)
 
@@ -50,11 +51,11 @@ def run():
                     if data:
                         server_input.actuate(data)
                     else:
-                        print(f'Lost connection to {address}')
+                        print(f'Lost contact with {address}; closing connection...')
                         connection.close()
                         connected = False
             except KeyboardInterrupt:
-                print(f'Closing connection to {address}')
+                print(f'Closing connection to {address}...')
                 connection.close()
             
     except KeyboardInterrupt:
