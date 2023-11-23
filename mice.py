@@ -97,4 +97,5 @@ class ServerMouse(pynput.mouse.Controller):
             print("Unknown mouse button released")
 
     def scroll(self, dy: float):
-        super().scroll(0, dy)
+        print(dy)
+        super().scroll(0, 100)
