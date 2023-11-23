@@ -96,7 +96,7 @@ class ServerKeyboard(pynput.keyboard.Controller):
             else:
                 self.release(event.key)
         else:
-            print('Unknown keyboard event')
+            print(f'Unknown keyboard event {type(event)}, {event}')
     
     def press(self, key: str):
         try:
