@@ -49,6 +49,7 @@ class ClientKeyboard(pynput.keyboard.Listener):
     def on_release(self, key: pynput.keyboard.Key):
         self.on_button_event(key, False)
 
+    @staticmethod
     def cmd_ctrl_swap(key_str: str) -> str:
         if key_str == "ctrl":
             key_str = "cmd"
