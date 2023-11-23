@@ -1,19 +1,19 @@
 import socket
 import queue
 
-import mice
+from mice import *
 
 class ClientInput():
     def __init__(self, client_socket):
         self.queue = queue.Queue()
 
-        self.mouse = mice.ClientMouse(self.queue)
+        self.mouse = ClientMouse(self.queue)
 
         self.socket: socket.socket = client_socket
 
     def send(self):
         if not self.queue.empty():
-            packet = repr(self.queue.get()).encode() + ";"
+            packet = repr(self.queue.get()).encode() + b';'
             self.socket.send(packet)
             # thing = eval(packet)
             # print(type(thing))
