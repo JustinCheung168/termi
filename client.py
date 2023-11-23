@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 import socket
 
-s = socket.socket()        
 host = '192.168.1.191'# ip of raspberry pi 
-port = 12345               
+port = 12345
+
+
+s = socket.socket()
 s.connect((host, port))
-print(s.recv(1024))
+
+try:
+    while True:
+        message = input(" --> ")
+        s.send(message.encode())
+except KeyboardInterrupt:
+    print("\nExiting...")
+
 s.close()
 
 

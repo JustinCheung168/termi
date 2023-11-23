@@ -6,12 +6,19 @@ host = '192.168.1.191' #ip of raspberry pi
 port = 12345
 s.bind((host, port))
 
-s.listen(5)
+# Allow 1 client
+s.listen(1)
+c, addr = s.accept()
+print(f'Got connection from: {addr}')
+c.send(b'Connected to host')
+
 while True:
-  c, addr = s.accept()
-  print ('Got connection from',addr)
-  c.send(b'Thank you for connecting')
-  c.close()
+    data = c.recv(1024).decode()
+    if not data:
+        break
+    print(f'Received: {data}')
+
+c.close()
 
 
 # def server_program():
@@ -20,7 +27,6 @@ while True:
 #     port = 12345  # initiate port no above 1024
 
 #     server_socket = socket.socket()  # get instance
-#     # look closely. The bind() function takes tuple as argument
 #     server_socket.bind((host, port))  # bind host address and port together
 
 #     # configure how many client the server can listen simultaneously
