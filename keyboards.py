@@ -107,13 +107,16 @@ class ServerKeyboard(pynput.keyboard.Controller):
             else:
                 super().press(key)
         except Exception as e:
-            print(f"Unknown key: {key} with exception {e}")
+            print(f"Unknown pressed key: {key} with exception {e}")
         self.pressed_keys.add(key)
 
     def release(self, key: str):
         try:
-            super().release(key)
+            if key in self.valid_special_keys.keys():
+                super().release(self.valid_special_keys[key])
+            else:
+                super().release(key)
         except Exception as e:
-            print(f"Unknown key: {key} with exception {e}")
+            print(f"Unknown released key: {key} with exception {e}")
         self.pressed_keys.discard(key)
 
