@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import socket
+import inputs
 
 def run():
     # Server socket details
@@ -22,12 +23,14 @@ def run():
             connection, address = server_socket.accept()  # accept new connection
             print(f'Connected to {address}')
 
+            server_input = inputs.ServerInput(connection)
+
             connected: bool = True
             while connected:
                 # Wait for data from the client
                 data = connection.recv(1024).decode()
                 if data:
-                    print(f'Received: {data}')
+                    server_input.actuate(data)
                 else:
                     print(f'Lost connection to {address}')
                     connection.close()

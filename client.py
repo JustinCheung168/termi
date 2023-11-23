@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 import socket
+import mice
+import time
+import inputs
 
 def run():
     # Server socket details
@@ -14,10 +17,13 @@ def run():
             print("Server refused connection; is it running?")
             return
 
+        client_input = inputs.ClientInput(client_socket)
+        print("Now accepting input. Press Ctrl+C to quit.")
+
         try:
             while True:
-                message = input("Enter something: ")
-                client_socket.send(message.encode())
+                time.sleep(1/1000)
+                client_input.send()
         except KeyboardInterrupt:
             print("\nQuitting...")
         except BrokenPipeError:
