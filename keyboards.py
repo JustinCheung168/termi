@@ -53,25 +53,6 @@ class ClientKeyboard(pynput.keyboard.Listener):
 
 class ServerKeyboard(pynput.keyboard.Controller):
 
-    # KEYS = {
-    #     58: pynput.keyboard.Key.alt,
-    #     61: pynput.keyboard.Key.alt_r,
-    #     51: pynput.keyboard.Key.backspace,
-    #     57: pynput.keyboard.Key.caps_lock,
-    #     55: pynput.keyboard.Key.cmd,
-    #     54: pynput.keyboard.Key.cmd_r,
-    #     59: pynput.keyboard.Key.ctrl,
-    #     62: pynput.keyboard.Key.ctrl_r,
-    #     117: pynput.keyboard.Key.delete,
-    #     125: pynput.keyboard.Key.down,
-    #     119: pynput.keyboard.Key.end,
-    #     36: pynput.keyboard.Key.enter,
-    #     53: pynput.keyboard.Key.esc,
-    #     122: pynput.keyboard.Key.f1,
-    #     120: pynput.keyboard.Key.f2,
-
-    # }
-
     def __init__(self):
         """"""
         super().__init__()
@@ -84,6 +65,16 @@ class ServerKeyboard(pynput.keyboard.Controller):
             if attribute[0] != '_':
                 attr: pynput.keyboard.Key = getattr(pynput.keyboard.Key, attribute)
                 valid_special_keys[attr.name] = attr
+
+        # Manually swap cmd and ctrl
+        swap = valid_special_keys['cmd']
+        valid_special_keys['cmd'] = valid_special_keys['ctrl']
+        valid_special_keys['ctrl'] = swap
+
+        swap = valid_special_keys['cmd_r']
+        valid_special_keys['cmd_r'] = valid_special_keys['ctrl_r']
+        valid_special_keys['ctrl_r'] = swap
+
         return valid_special_keys
 
     def actuate(self, event: KeyboardEvent):
