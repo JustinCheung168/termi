@@ -41,23 +41,21 @@ def run():
 
             server_input.interpret_introduction(intro_data)
 
+            try:
+                connected: bool = True
+                while connected:
+                    # Wait for data from the client
+                    data = connection.recv(1024).decode()
 
-            connected: bool = True
-            while connected:
-                # Wait for data from the client
-                data = connection.recv(1024).decode()
-
-                if data:
-                    feedback = server_input.actuate(data)
-
-                    if feedback == "escape":
-                        print(f'Received exit sequence')
+                    if data:
+                        server_input.actuate(data)
+                    else:
+                        print(f'Lost connection to {address}')
                         connection.close()
                         connected = False
-                else:
-                    print(f'Lost connection to {address}')
-                    connection.close()
-                    connected = False
+            except KeyboardInterrupt:
+                print(f'Closing connection to {address}')
+                connection.close()
             
     except KeyboardInterrupt:
         print("\nQuitting...")
