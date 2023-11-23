@@ -49,19 +49,35 @@ class ClientKeyboard(pynput.keyboard.Listener):
     def on_release(self, key: pynput.keyboard.Key):
         self.on_button_event(key, False)
 
+    def cmd_ctrl_swap(key_str: str) -> str:
+        if key_str == "ctrl":
+            key_str = "cmd"
+        elif key_str == "cmd":
+            key_str = "ctrl"
+        elif key_str == "ctrl_r":
+            key_str = "cmd_r"
+        elif key_str == "cmd_r":
+            key_str = "ctrl_r"
+        return key_str
+
     def on_button_event(self, key: Union[pynput.keyboard.KeyCode, pynput.keyboard.Key], pressed: bool):
+
+
         if isinstance(key, pynput.keyboard.KeyCode):
-            self.queue.put(KeyPressAlphanumericEvent(pressed, key.char))
-            if pressed:
-                self.pressed_keys.add(key.char)
-            else:
-                self.pressed_keys.discard(key.char)
+            key_str = key.char
+            self.queue.put(KeyPressAlphanumericEvent(pressed, key_str))
         elif isinstance(key, pynput.keyboard.Key):
-            self.queue.put(KeyPressSpecialEvent(pressed, key.name))
-            if pressed:
-                self.pressed_keys.add(key.name)
-            else:
-                self.pressed_keys.discard(key.name)
+            key_str = key.name
+
+            # Swap ctrl and cmd at the client's transmission
+            key_str = self.cmd_ctrl_swap(key_str)
+
+            self.queue.put(KeyPressSpecialEvent(pressed, key_str))
+        
+        if pressed:
+            self.pressed_keys.add(key_str)
+        else:
+            self.pressed_keys.discard(key_str)
 
 
 class ServerKeyboard(pynput.keyboard.Controller):
@@ -87,15 +103,6 @@ class ServerKeyboard(pynput.keyboard.Controller):
             if attribute[0] != '_':
                 attr: pynput.keyboard.Key = getattr(pynput.keyboard.Key, attribute)
                 valid_special_keys[attr.name] = attr
-
-        # Manually swap cmd and ctrl
-        # swap = valid_special_keys['cmd']
-        # valid_special_keys['cmd'] = valid_special_keys['ctrl']
-        # valid_special_keys['ctrl'] = swap
-
-        # swap = valid_special_keys['cmd_r']
-        # valid_special_keys['cmd_r'] = valid_special_keys['ctrl_r']
-        # valid_special_keys['ctrl_r'] = swap
 
         return valid_special_keys
 
