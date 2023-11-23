@@ -60,13 +60,16 @@ class ServerMouse(pynput.mouse.Controller):
 
     def actuate(self, event: MouseEvent):
         if isinstance(event, MouseMoveEvent):
+            print('move')
             self.move(event.x, event.y)
         elif isinstance(event, MouseClickEvent):
+            print('click')
             if event.pressed:
                 self.press(event.button)
             else:
                 self.release(event.button)
         elif isinstance(event, MouseScrollEvent):
+            print('scroll')
             self.scroll(event.dy)
 
     def move(self, x: float, y: float):
