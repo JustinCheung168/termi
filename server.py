@@ -45,8 +45,9 @@ def run():
                 # Wait for data from the client
                 data = connection.recv(1024).decode()
                 if data:
-                    disconnect = server_input.actuate(data)
-                    if disconnect:
+                    feedback = server_input.actuate(data)
+                    if feedback == "escape":
+                        connection.close()
                         connected = False
                 else:
                     print(f'Lost connection to {address}')

@@ -81,7 +81,7 @@ class ServerKeyboard(pynput.keyboard.Controller):
 
         return valid_special_keys
 
-    def actuate(self, event: KeyboardEvent) -> bool:
+    def actuate(self, event: KeyboardEvent):
         if isinstance(event, KeyPressAlphanumericEvent):
             if event.pressed:
                 return self.press(event.key)
@@ -95,7 +95,7 @@ class ServerKeyboard(pynput.keyboard.Controller):
         else:
             print('Unknown keyboard event')
     
-    def press(self, key: str) -> bool:
+    def press(self, key: str):
         try:
             if key in self.valid_special_keys.keys():
                 super().press(self.valid_special_keys[key])
@@ -106,7 +106,7 @@ class ServerKeyboard(pynput.keyboard.Controller):
         self.pressed_keys.add(key)
 
         if 'ctrl' in self.pressed_keys and 'q' in self.pressed_keys:
-            return True
+            return "escape"
 
     def release(self, key: str):
         try:

@@ -56,7 +56,7 @@ class ServerInput():
                 if isinstance(event, MouseEvent):
                     self.mouse.actuate(event, self.x_scale, self.y_scale)
                 elif isinstance(event, KeyboardEvent):
-                    self.keyboard.actuate(event)
+                    return self.keyboard.actuate(event)
                 else:
                     print(f"Unknown event type {type(event)}")
 
