@@ -19,7 +19,6 @@ def server_program():
         print("Connection from: " + str(address))
     except KeyboardInterrupt:
         print("Didn't receive a connection")
-        server_socket.close()
         return
 
     try:
@@ -32,12 +31,10 @@ def server_program():
             print("from connected user: " + str(data))
         print("Lost connection")
         conn.close()  # close the connection
-        server_socket.close()
         return
     except KeyboardInterrupt:
         print("Quitting")
         conn.close()  # close the connection
-        server_socket.close()
         return
 
 
